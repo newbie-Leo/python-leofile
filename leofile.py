@@ -5,19 +5,28 @@ class Leofile(object):
     r"""class Leofile make files as object ^_^.
     usage:
         path = '/etc'
-        etcObj = Leofile(path)
-        nginxConfObj = etcObj.nginx['nginx.conf'].open('r')
-        nginxConfObj.read()
+        etc = Leofile(path)
+        nginx_config = etc.nginx['nginx.conf'].open('r')
+        nginx_config.read()
     """
 
     def __init__(self, path, **kwargs):
         self.path = path
 
+    def __str__(self):
+        return "Leofile of %s" % self.path
+
+    def __iter__(self):
+        return iter(self.list())
+
+    def __repr__(self):
+        return "<%s>" % self.__str__()
+
     def list(self):
         '''
         return listdir
         '''
-        return os.listdir(self.path)
+        return [Leofile(os.path.abspath(i)) for i in os.listdir(self.path)]
 
     def __getattr__(self, attr):
         return Leofile(os.path.join(self.path, attr))
@@ -41,7 +50,7 @@ class Leofile(object):
 
     @property
     def parrent(self):
-        return Leofile(os.path.join(self.path, '..'))
+        return Leofile(os.path.abspath(os.path.join(self.path, '..')))
 
     @property
     def stat(self):

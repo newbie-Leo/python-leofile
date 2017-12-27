@@ -10,6 +10,6 @@ so this tiny class borned<br/>
 
     usage:
         path = '/etc'
-        etcObj = Leofile(path)
-        nginxConfObj = etcObj.nginx['nginx.conf'].open('r')
-        nginxConfObj.read()
+        etc = Leofile(path)
+        nginx_config = etc.nginx['nginx.conf'].open('r')
+        nginx_config.read()
